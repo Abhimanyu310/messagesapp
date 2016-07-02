@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {FormBuilder, ControlGroup, Validators, Control } from '@angular/common';
+import {User} from "./user";
+import {AuthService} from "./auth.service";
+import {Router} from "@angular/router";
 @Component({
     selector: 'my-signin',
     template: `
@@ -24,12 +27,21 @@ import {FormBuilder, ControlGroup, Validators, Control } from '@angular/common';
 })
 export class SigninComponent implements OnInit{
     myForm : ControlGroup;
-    constructor(private _fb : FormBuilder){
+    constructor(private _fb : FormBuilder, private _authService : AuthService, private _router: Router){
 
     }
 
     onSubmit(){
-        console.log(this.myForm.value);
+        const user = new User(this.myForm.value.email, this.myForm.value.password);
+        this._authService.signin(user)
+            .subscribe(
+                data => {
+                    localStorage.setItem('token', data.token);
+                    localStorage.setItem('userId', data.userId);
+                    this._router.navigateByUrl('/');
+                },
+                error => console.error(error)
+            );
     }
 
     ngOnInit() {
