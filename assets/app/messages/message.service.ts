@@ -65,5 +65,5 @@ export class MessageService{
             .map(response => response.json())
             .catch(error => Observable.throw(error.json()));
     }
-    }
+    
 }
