@@ -22,7 +22,7 @@ export class MessageService{
             .map(response => {
                 const data = response.json().obj;
                 let message = new Message(
-                    data.content, data._id, 'Dummy', null
+                    data.content, data._id, data.user.firstName, data.user._id
                 );
                 return message;
             })
@@ -37,7 +37,7 @@ export class MessageService{
                 let objs : any[] = [];
                 for (let i =0; i < data.length; i++){
                     let message = new Message(
-                        data[i].content, data[i]._id, 'Dummy', null
+                        data[i].content, data[i]._id, data[i].user.firstName, data[i].user._id
                     );
                     objs.push(message);
                 };
