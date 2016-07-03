@@ -17,7 +17,8 @@ export class MessageService{
         const headers = new Headers({
             'Content-Type' : 'application/json'
         });
-        return this._http.post('http://localhost:3000/message', body, {headers: headers})
+        const token = localStorage.getItem('token') ? '?token=' + localStorage.getItem('token') : '';
+        return this._http.post('http://localhost:3000/message' + token, body, {headers: headers})
             .map(response => {
                 const data = response.json().obj;
                 let message = new Message(
