@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {FormBuilder, ControlGroup, Validators, Control } from '@angular/common';
 import {User} from "./user";
 import {AuthService} from "./auth.service";
+import {ErrorService} from "../errors/error.service";
 @Component({
     selector : 'my-signup',
     template : `
@@ -33,7 +34,8 @@ import {AuthService} from "./auth.service";
 })
 export class SignupComponent implements OnInit {
     myForm : ControlGroup;
-    constructor(private _fb : FormBuilder, private _authService: AuthService){
+    constructor(private _fb : FormBuilder, private _authService: AuthService, private _errorService: ErrorService
+    ){
 
     }
 
@@ -43,7 +45,7 @@ export class SignupComponent implements OnInit {
         this._authService.signup(user)
             .subscribe(
                 data => console.log(data),
-                error => console.error(error)
+                error => this._errorService.handleError(error)
             );
 
     }
